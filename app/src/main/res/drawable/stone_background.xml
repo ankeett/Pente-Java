@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#ffffff" /> <!-- Red color for the stone -->
+    <size android:width="20dp" android:height="20dp" /> <!-- Adjust the size as needed -->
+    <corners android:radius="10dp" /> <!-- Make it a circle -->
+</shape>
