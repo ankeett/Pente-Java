@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StartGame">
+    tools:context=".View.StartGame">
 
 
-    <com.example.pente.BoardView
+    <com.example.pente.View.BoardView
         android:id="@+id/boardView"
         android:layout_width="332dp"
         android:layout_height="715dp"

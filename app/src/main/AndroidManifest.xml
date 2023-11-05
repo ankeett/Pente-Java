@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Pente"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".View.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,10 +21,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".test2"
+        <activity android:name=".View.test2"
             android:label="Start Game Activity">
             <!-- ... -->
         </activity>
+        <activity android:name=".RoundPlay">
+            <!-- Add any other necessary configuration for the activity -->
+        </activity>
+
 
 
     </application>

@@ -86,7 +86,7 @@
 //
 
 
-package com.example.pente;
+package com.example.pente.View;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -97,6 +97,7 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.Toast;
 import android.util.AttributeSet;
+
 
 
 public class BoardView extends GridLayout {

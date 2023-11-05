@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".test2">
+    tools:context=".View.test2">
 
     <!-- Add labels for columns (A-S) -->
     <GridLayout
