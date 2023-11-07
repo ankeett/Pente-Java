@@ -4,6 +4,14 @@ public class Player {
     private char symbol;
     boolean quitGame  = false;
 
+    protected static int position;
+
+    public void setPosition(int position){
+        System.out.println("position is changed to "+ position);
+        Player.position = position;
+    }
+
+
     public Player(char symbol) {
         this.symbol = symbol;
     }

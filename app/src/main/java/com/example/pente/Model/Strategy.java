@@ -59,62 +59,22 @@ public class Strategy {
 
 
 
-        public Pair<Integer, Integer> captureOpponent() {
-            int opponentSymbol = (playerSymbol == 1) ? 2 : 1;
-
-            // Keep track of the number of opponent stones that can be captured from a position
-            // Return the position that can capture the most number of opponent stones
-            // Keep the pair and the number of opponent stones that can be captured in a map
-
-            Map<Pair<Integer, Integer>, Integer> captureMap = new HashMap<>();
-
-            // Iterate through the entire game board
-            for (int row = 1; row <= 19; row++) {
-                for (int col = 0; col < 19; col++) {
-                    // Check if the current cell is empty
-                    if (board.isEmptyCell(row, col)) {
-                        // Simulate placing the player's stone in the current empty cell
-                        board.setBoard(row, col, playerSymbol);
-
-                        // Check for five-in-a-row with the simulated stone
-                        while (board.checkCapture(row, col, playerSymbol)) {
-                            // If a winning move is found, return the position
-                            board.setBoard(row, col, 0); // Undo the simulation
-
-                            // Increment the number of opponent stones that can be captured from this position
-                            Pair<Integer, Integer> key = new Pair<>(row, col);
-                            Integer value = captureMap.get(key);
-                            if (value != null) {
-                                // Key exists in the map, increment the value
-                                captureMap.put(key, value + 1);
-                            } else {
-                                // Key doesn't exist, so create it with a value of 1
-                                captureMap.put(key, 1);
-                            }
-                        }
-
-                        // Undo the simulation by resetting the cell to empty
+    public Pair<Integer, Integer> captureOpponent() {
+        int opponentSymbol = (playerSymbol == 1) ? 2 : 1;
+        for (int row = 1; row <= 19; row++) {
+            for (int col = 0; col < 19; col++) {
+                if (board.isEmptyCell(row, col)) {
+                    board.setBoard(row, col, playerSymbol);
+                    if (board.checkCapture(row, col, playerSymbol)) {
                         board.setBoard(row, col, 0);
-                    } else {
-                        continue;
+                        return new Pair<>(row, col);
                     }
+                    board.setBoard(row, col, 0);
                 }
             }
-
-            // Return the key with the highest value
-            int max = -1;
-            Pair<Integer, Integer> bestPosition = new Pair<>(-1, -1);
-            for (Map.Entry<Pair<Integer, Integer>, Integer> entry : captureMap.entrySet()) {
-                Pair<Integer, Integer> key = entry.getKey();
-                Integer value = entry.getValue();
-                if (value > max) {
-                    max = value;
-                    bestPosition = key;
-                }
-            }
-
-            return bestPosition;
         }
+        return new Pair<>(-1, -1);
+    }
 
 
 
@@ -142,55 +102,55 @@ public class Strategy {
     public Pair<Integer, Integer> evaluateAllCases() {
         Pair<Integer, Integer> winningMove = findWinningMove();
         if (!winningMove.equals(new Pair<>(-1, -1))) {
-            showToast(winningMove, "winning move");
+            //showToast(winningMove, "winning move");
             return winningMove;
         }
 
         Pair<Integer, Integer> defendingWin = defendWinningMove();
         if (!defendingWin.equals(new Pair<>(-1, -1))) {
-            showToast(defendingWin, "defending win");
+            //showToast(defendingWin, "defending win");
             return defendingWin;
         }
 
         Pair<Integer, Integer> defendingFour = defendFour();
         if (!defendingFour.equals(new Pair<>(-1, -1))) {
-            showToast(defendingFour, "defending four");
+            //showToast(defendingFour, "defending four");
             return defendingFour;
         }
 
         Pair<Integer, Integer> capturingOpponent = captureOpponent();
         if (!capturingOpponent.equals(new Pair<>(-1, -1))) {
-            showToast(capturingOpponent, "capturing opponent");
+            //showToast(capturingOpponent, "capturing opponent");
             return capturingOpponent;
         }
 
         Pair<Integer, Integer> defendingCapture = defendCapture();
         if (!defendingCapture.equals(new Pair<>(-1, -1))) {
-            showToast(defendingCapture, "defending capture");
+            //showToast(defendingCapture, "defending capture");
             return defendingCapture;
         }
 
         Pair<Integer, Integer> maxConsecutivePos = maxConsecutive();
         if (!maxConsecutivePos.equals(new Pair<>(-1, -1))) {
-            showToast(maxConsecutivePos, "max consecutive");
+            //showToast(maxConsecutivePos, "max consecutive");
             return maxConsecutivePos;
         }
 
         Pair<Integer, Integer> centerPos = controlCenter();
         if (!centerPos.equals(new Pair<>(-1, -1))) {
-            showToast(centerPos, "center");
+            //showToast(centerPos, "center");
             return centerPos;
         }
 
-        showToast(new Pair<>(-1, -1), "random move");
+        //showToast(new Pair<>(-1, -1), "random move");
         return randomMove();
     }
 
     // Updated helper method to display a toast with the Pair and message
-    private void showToast(Pair<Integer, Integer> pair, String message) {
-        String toastMessage = "Pair: (" + pair.first + ", " + pair.second + ") - " + message;
-        Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
-    }
+//    private void showToast(Pair<Integer, Integer> pair, String message) {
+//        String toastMessage = "Pair: (" + pair.first + ", " + pair.second + ") - " + message;
+//        Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
+//    }
 
 
 

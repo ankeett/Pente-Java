@@ -2,7 +2,7 @@ package com.example.pente.Model;
 
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-
+import android.content.Context;
 public class Round {
     private Board B = new Board();
     private Player[] playerList = new Player[2];
@@ -17,6 +17,19 @@ public class Round {
     private char humanColor = 'W';
     private boolean quit = false;
     private int currentPlayerIndex = 0;
+
+    private Context context;
+
+    public void reset() {
+        // Reset the round to its initial state
+        // You need to define the logic based on your game's requirements.
+        // For example, if there are scores, captures, and other round-related data, reset them.
+
+        // Example: Reset scores and captures
+        humanScore = 0;
+        computerScore = 0;
+        winner = 0; // Set to an initial state value
+    }
 
     public Round(Player player1, Player player2) {
         playerList[0] = player1;
@@ -115,12 +128,18 @@ public class Round {
         tournamentComputerScore = score;
     }
 
-    public void startGame(Board B) {
-        Scanner scanner = new Scanner(System.in);
+    public Player getCurrentPlayer(){
+        return playerList[currentPlayerIndex];
+    }
 
-        // Pausing the game to give a user a chance to read the board
-        System.out.println("Press Enter to continue");
-        scanner.nextLine();
+    public void switchTurn() {
+        currentPlayerIndex = (currentPlayerIndex + 1) % playerList.length;
+    }
+
+
+
+    public void startGame(Board B) {
+        //Scanner scanner = new Scanner(System.in);
 
         Player currentPlayer = playerList[currentPlayerIndex];
 
@@ -154,31 +173,31 @@ public class Round {
                 break;  // Use break to exit the loop
             }
 
-            if (currentPlayer.getSymbol() != getHumanColor()) {
-                System.out.println("Before asking to quit");
-                System.out.println("Do you want to quit? (y/n)");
-
-                try {
-                    String response = scanner.nextLine().toUpperCase();
-                    // ... your code
-                    System.out.println("After asking to quit");
-                    if (response.equals("Y")) {
-                        System.out.println("Quitting the game");
-                        setQuit(true);
-                        B.setGameOver(true);
-                        break;  // Use break to exit the loop
-                    }
-                } catch (NoSuchElementException e) {
-                    e.printStackTrace();
-                }
-
-            }
+//            if (currentPlayer.getSymbol() != getHumanColor()) {
+//                System.out.println("Before asking to quit");
+//                System.out.println("Do you want to quit? (y/n)");
+//
+//                try {
+//                    String response = scanner.nextLine().toUpperCase();
+//                    // ... your code
+//                    System.out.println("After asking to quit");
+//                    if (response.equals("Y")) {
+//                        System.out.println("Quitting the game");
+//                        setQuit(true);
+//                        B.setGameOver(true);
+//                        break;  // Use break to exit the loop
+//                    }
+//                } catch (NoSuchElementException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
         }
 
         // Don't close the scanner here to keep System.in open for further input
         calculateScores(B);
         printScores();
-        scanner.close();  // Close the scanner when you're done with input
+        //scanner.close();  // Close the scanner when you're done with input
     }
 
 

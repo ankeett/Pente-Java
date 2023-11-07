@@ -9,6 +9,25 @@ public class Board {
     private int moveCount = 1;
     private int winner = 0;
 
+    public void reset() {
+        // Reset the game board to its initial state
+        // You need to define the logic based on your game's requirements.
+        // For example, if your board is represented by a 2D array, you can clear it.
+        // If there are other board-related variables, reset them as well.
+
+        // Example: Clear a 2D array representing the board
+        for (int i = 0; i < 19; i++) {
+            for (int j = 0; j < 19; j++) {
+                board[i][j] = 0; // Set to your initial state constant
+            }
+        }
+
+        humanCaptures = 0;
+        computerCaptures = 0;
+        winner = 0;
+        gameOver = false;
+    }
+
     public Board deepCopy() {
         Board copy = new Board();
         for (int row = 0; row < 19; row++) {
@@ -83,6 +102,9 @@ public String printBoard(char player) {
         } else {
             board[row - 1][col] = 2;
         }
+
+        Log.d("board", printBoard('W'));
+
     }
 
     public boolean checkFive(int row, int col, int symbol) {

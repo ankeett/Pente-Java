@@ -1,154 +1,109 @@
-////package com.example.pente;
-////
-////import android.content.Context;
-////import android.graphics.Canvas;
-////import android.graphics.Color;
-////import android.graphics.Paint;
-////import android.view.View;
-////import android.util.AttributeSet;
+//package com.example.pente.View;
+//
+//import android.content.Context;
+//import android.util.Log;
+//import android.widget.ArrayAdapter;
+//import android.widget.GridView;
+//import android.widget.TextView;
+//import android.widget.Toast;
+//import android.view.Gravity;
+//
+//import com.example.pente.Model.Board;
+//import com.example.pente.Model.ComputerPlayer;
+//import com.example.pente.Model.HumanPlayer;
+//import com.example.pente.Model.Round;
+//
+//import com.example.pente.R;
+//
+//public class BoardView {
+//    private Board board;
+//    private Round round;
+//    private GridView boardGridView;
+//    private ArrayAdapter<String> boardAdapter;
+//    private String[] boardData;
+//    private boolean isBlackPlayer = true;
 //
 //
-////public class BoardView extends View {
-////    private int numRows;
-////    private int numColumns;
-////    private int cellSize;
-////    private Paint paint;
-////
-////    public BoardView(Context context, AttributeSet attrs) {
-////        super(context, attrs);
-////        // Initialize any attributes here if needed
-////        init();
-////    }
-////
-////    protected void init() {
-////        // Initialization code
-////        this.numRows = 19;
-////        this.numColumns = 19;
-////        this.cellSize = 50;
-////        this.paint = new Paint();
-////        paint.setColor(Color.BLACK);
-////        paint.setStyle(Paint.Style.STROKE);
-////    }
-////
-////    @Override
-////    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-////        int width = (numColumns +2) * cellSize;
-////        int height = (numRows+2) * cellSize;
-////        setMeasuredDimension(width, height);
-////    }
-////
-////    @Override
-////    protected void onDraw(Canvas canvas) {
-////        super.onDraw(canvas);
-////
-////        // Set the background color to yellow
-////        canvas.drawColor(Color.YELLOW);
-////
-////        // Calculate the starting position to center the board in the canvas
-////        int startX = (getWidth() - (numColumns * cellSize)) / 2;
-////        int startY = (getHeight() - (numRows * cellSize)) / 2;
-////
-////        // Set up paint for labels
-////        Paint labelPaint = new Paint();
-////        labelPaint.setColor(Color.BLACK);
-////        labelPaint.setTextSize(24);
-////
-////        for (int j = 0; j <= numColumns; j++) {
-////            int x = startX + j * cellSize;
-////
-////            // Add column label
-////
-////            if(j != 19) {
-////                String colLabel = String.valueOf((char)('A' + j));
-////                canvas.drawText(colLabel, x + 10, startY - 20, labelPaint);
-////            }
-////
-////            canvas.drawLine(x, startY, x, startY + numRows * cellSize, paint);
-////        }
-////
-////        for (int i = 0; i <= numRows; i++) {
-////            int y = startY + i * cellSize;
-////
-////            // Add row label
-////            int rowLabel = 19 - i;
-////            canvas.drawText(String.valueOf(rowLabel), startX - 30, y + 20, labelPaint);
-////
-////            canvas.drawLine(startX, y, startX + numColumns * cellSize, y, paint);
-////        }
-////
-////        // Add your custom drawing logic for the game pieces or other content here
-////    }
-////
-////
-////
-////
-////}
 //
-
-
-package com.example.pente.View;
-
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.view.View;
-import android.widget.Button;
-import android.widget.GridLayout;
-import android.widget.Toast;
-import android.util.AttributeSet;
-
-
-
-public class BoardView extends GridLayout {
-
-    public BoardView(Context context) {
-        super(context);
-        setRowCount(19);
-        setColumnCount(19);
-        createBoardButtons(context);
-    }
-
-    public BoardView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        setRowCount(19);
-        setColumnCount(19);
-        createBoardButtons(context);
-    }
-
-    private void createBoardButtons(final Context context) {
-        // Inside your createBoardButtons method
-        for (int i = 0; i < 19; i++) {
-            for (int j = 0; j < 19; j++) {
-                Button button = new Button(context);
-                button.setLayoutParams(new GridLayout.LayoutParams());
-
-                // Set the background color for each individual button
-                button.setBackgroundColor(Color.RED); // Or any other color
-
-                // Set other button properties as needed
-                button.setWidth(8);
-                button.setHeight(8);
-                button.setTextSize(4);
-
-                final int row = i;
-                final int col = j;
-
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Handle button click
-                        Toast.makeText(context, "Button clicked at row " + row + " and column " + col, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                this.addView(button);
-            }
-        }
-
-    }
-
-}
-
-
-
+//    private HumanPlayer humanPlayer;
+//    private ComputerPlayer computerPlayer;
+//
+//    public BoardView(Context context, GridView gridView, ArrayAdapter<String> adapter) {
+//        board = new Board();
+//        boardGridView = gridView;
+//        boardAdapter = adapter;
+//        boardData = new String[361];
+//        computerPlayer = new ComputerPlayer('W', context);
+//        humanPlayer = new HumanPlayer('B', context);
+//
+//        initializeGridView();
+//    }
+//    // Add the setRound method
+//    public void setRound(Round round) {
+//        this.round = round;
+//    }
+//
+//    private void initializeGridView() {
+//        for (int i = 0; i < 361; i++) {
+//            boardData[i] = "";
+//        }
+//
+//        boardAdapter = new ArrayAdapter<>(boardGridView.getContext(), R.layout.board_item, R.id.itemTextView, boardData);
+//        boardGridView.setAdapter(boardAdapter);
+//    }
+//
+//
+//    public void setupGridViewClickListener() {
+//        boardGridView.setOnItemClickListener((parent, view, position, id) -> {
+//            if (boardData[position].isEmpty()) {
+//                if (isBlackPlayer) {
+//                    boardData[position] = "⚫";
+//                } else {
+//                    boardData[position] = "⚪";
+//                }
+//                int boardSize = 19;
+//                int row = position / boardSize;
+//                int col = position % boardSize;
+//
+//                char colChar = (char) ('A' + col);
+//                String move = colChar + Integer.toString(19 - row);
+//                if (isBlackPlayer) {
+//                    Log.d("here", "I'm here");
+//                    board.placeStone(move, 'H');
+//                } else {
+//                    board.placeStone(move, 'C');
+//                }
+//
+//                if (isBlackPlayer) {
+//                    if (board.checkFive(row, col, 1)) {
+//                        Toast.makeText(boardGridView.getContext(), "Five in a row", Toast.LENGTH_SHORT).show();
+//                    }
+//                    while (board.checkCapture(row, col, 1)) {
+//                        Toast.makeText(boardGridView.getContext(), "You captured a stone!", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//
+//                boardAdapter.notifyDataSetChanged();
+//                updateView();
+//
+//                computerPlayer.makeMove(board, 5);
+//                updateView();
+//            } else {
+//                Toast.makeText(boardGridView.getContext(), "Cell is already populated.", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+//
+//    private void updateView() {
+//        String[] mapping = {"", "⚫", "⚪"};
+//
+//        for (int i = 0; i < 19; i++) {
+//            for (int j = 0; j < 19; j++) {
+//                int cellValue = board.getBoard(i + 1, j);
+//                boardData[i * 19 + j] = mapping[cellValue];
+//            }
+//        }
+//
+//        boardAdapter.notifyDataSetChanged();
+//    }
+//}

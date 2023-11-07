@@ -6,32 +6,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".View.test2">
+    tools:context=".View.RoundPlay">
 
-    <!-- Add labels for columns (A-S) -->
-    <GridLayout
-        android:id="@+id/boardLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="19"
-        android:rowCount="1"
-        android:layout_gravity="center"
+<!--    &lt;!&ndash; Add labels for columns (A-S) &ndash;&gt;-->
+<!--    <GridLayout-->
+<!--        android:id="@+id/boardLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:columnCount="19"-->
+<!--        android:rowCount="1"-->
+<!--        android:layout_gravity="center"-->
+<!--        >-->
 
-        >
+<!--    </GridLayout>-->
 
-
-    </GridLayout>
-
-    <!-- Your GridView for the game board -->
-    <GridView
-        android:id="@+id/boardGridView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:numColumns="19"
-        android:horizontalSpacing="1dp"
-        android:verticalSpacing="1dp"
-        android:stretchMode="columnWidth" />
+<!--    <GridView-->
+<!--        android:id="@+id/boardGridView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_weight="1"-->
+<!--        android:numColumns="19"-->
+<!--        android:horizontalSpacing="1dp"-->
+<!--        android:verticalSpacing="1dp"-->
+<!--        android:stretchMode="columnWidth" />-->
 
 
 </LinearLayout>

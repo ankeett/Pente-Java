@@ -8,13 +8,17 @@ import android.content.Context;
 import com.example.pente.Model.Strategy;
 public class ComputerPlayer extends Player {
 
-    private  Context context;
+    private Context context;
+
+    //private int position;
+
+    //    public void setPosition(int position){
+//        this.position = position;
+//    }
     public ComputerPlayer(char symbol, Context context) {
         super(symbol);
         this.context = context;
     }
-
-
 
 
     @Override
@@ -29,9 +33,9 @@ public class ComputerPlayer extends Player {
                 row = 11;
                 col = 10;
             } else {
-                Strategy strategy = new Strategy(board, 2, context);
-                // Set the scores to determine the strategy
 
+                // Set the scores to determine the strategy
+                Strategy strategy = new Strategy(board, 2, context);
 
                 // Determine the best move based on the game situation
                 // if (moveCount == 3) {
@@ -47,13 +51,14 @@ public class ComputerPlayer extends Player {
                 // }
                 Pair<Integer, Integer> bestMove = strategy.evaluateAllCases();
 
-                Log.d("strategy", bestMove.first + " " + bestMove.second );
+                Log.d("strategy", bestMove.first + " " + bestMove.second);
 
-                 row = 20 - bestMove.first;  // Get the first element
-                 col = bestMove.second;      // Get the second element
+                row = 20 - bestMove.first;  // Get the first element
+                col = bestMove.second;      // Get the second element
 
                 char colChar = (char) ('A' + col);
                 move = colChar + Integer.toString(row);
+
 
                 if (moveCount == 3) {
                     // Ensure that the stone is at least 3 intersections away from the center of the board
@@ -89,12 +94,29 @@ public class ComputerPlayer extends Player {
                     }
                     System.out.println("Computer captured a stone!");
                 }
+
+                System.out.println("Human Captures: " + board.getHumanCaptures());
+                System.out.println("Computer Captures: " + board.getComputerCaptures());
                 break;
-            }
-            else{
+            } else {
                 System.out.println("Invalid move. Please enter a valid position.");
             }
         } while (true);
     }
-}
 
+
+    public String returnMove(Board board, int moveCount) {
+        Strategy strategy = new Strategy(board, 2, context);
+        Pair<Integer, Integer> bestMove = strategy.evaluateAllCases();
+
+        Log.d("strategy", bestMove.first + " " + bestMove.second);
+
+        int row = 20 - bestMove.first;  // Get the first element
+        int col = bestMove.second;      // Get the second element
+
+        char colChar = (char) ('A' + col);
+        String move = colChar + Integer.toString(row);
+
+        return move;
+    }
+}
