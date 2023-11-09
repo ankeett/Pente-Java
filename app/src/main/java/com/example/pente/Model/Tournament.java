@@ -1,10 +1,16 @@
 package com.example.pente.Model;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
 
 import android.content.Context;
+import android.os.Environment;
+import android.util.Log;
 
 public class Tournament {
     private Player[] playerList;
@@ -116,7 +122,7 @@ public class Tournament {
                 String answer = scanner.next().toLowerCase();
 
                 if (answer.equals("y")) {
-                    serializeGame(game);
+                    //serializeGame(game);
                 }
 
                 break;
@@ -293,22 +299,47 @@ public class Tournament {
         }
     }
 
-    public void serializeGame(Round game) {
-//        Board B = game.getBoard();
-//        Serialization s = new Serialization(B);
-//
-//        s.setComputerCaptures(B.getComputerCaptures());
-//        s.setHumanCaptures(B.getHumanCaptures());
-//        s.setComputerScore(getComputerScores());
-//        s.setHumanScore(getHumanScores());
-//
-//        if (playerList[game.getCurrentPlayerIndex()].getSymbol() == game.getHumanColor()) {
-//            s.setNextPlayer("Human");
-//        } else {
-//            s.setNextPlayer("Computer");
-//
-//        }
+
+    public void WriteToFile(Round round, String aFileName) {
+        String gameState = round.GameState(round);
+
+        String serializeDirectory = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download";
+        final File path = new File(serializeDirectory);
+
+        if (!path.exists()) {
+            if (!path.mkdirs()) {
+                Log.e("Error", "Failed to create directory");
+                return;
+            }
+        }
+
+        final File file = new File(path, aFileName);
+
+        if (file.exists()) {
+            Log.w("Warning", "File already exists. Decide what to do.");
+            return;
+        }
+
+        try {
+            if (file.createNewFile()) {
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                OutputStreamWriter myOutWriter = new OutputStreamWriter(fileOutputStream);
+                myOutWriter.append(gameState);
+                myOutWriter.close();
+                fileOutputStream.flush();
+                fileOutputStream.close();
+                Log.i("Success", "File write successful");
+            } else {
+                Log.e("Error", "Failed to create the file");
+            }
+        } catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
     }
+
+
+
+
 
 }
 

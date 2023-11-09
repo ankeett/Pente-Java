@@ -36,20 +36,16 @@ public class ComputerPlayer extends Player {
 
                 // Set the scores to determine the strategy
                 Strategy strategy = new Strategy(board, 2, context);
+                Pair<Integer, Integer> bestMove;
 
                 // Determine the best move based on the game situation
-                // if (moveCount == 3) {
-                //     // Evaluate second move strategy
-                //     // The best move is calculated here
-                //     // ...
+                 if (moveCount == 3) {
+                     bestMove = strategy.evaluateSecondMove();
 
-                // } else {
-                //     // Evaluate all cases strategy
-                //     // The best move is calculated here
-                //     // ...
-
-                // }
-                Pair<Integer, Integer> bestMove = strategy.evaluateAllCases();
+                 }
+                 else {
+                     bestMove = strategy.evaluateAllCases();
+                 }
 
                 Log.d("strategy", bestMove.first + " " + bestMove.second);
 
@@ -58,14 +54,6 @@ public class ComputerPlayer extends Player {
 
                 char colChar = (char) ('A' + col);
                 move = colChar + Integer.toString(row);
-
-
-                if (moveCount == 3) {
-                    // Ensure that the stone is at least 3 intersections away from the center of the board
-                    // if (!isThreePointsAway("J10", move)) {
-                    //     continue;
-                    // }
-                }
             }
 
             row = 20 - row;

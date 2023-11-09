@@ -8,8 +8,10 @@ import com.example.pente.Model.Board;
 import com.example.pente.Model.Round;
 import com.example.pente.Model.Tournament;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class DialogHelper {
-    public static void showGameOverDialog(Context context, Tournament tournament, Round round, Board board,Runnable updateView) {
+    public static void showGameOverDialog(Context context, Tournament tournament, Round round, Board board, AtomicInteger moveCount, Runnable updateView) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Game Over");
 
@@ -40,7 +42,7 @@ public class DialogHelper {
                 round.reset();
 
                 board.reset();
-
+                moveCount.set(1);
                 updateView.run();
 
                 dialog.dismiss();
@@ -54,6 +56,7 @@ public class DialogHelper {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 showQuitConfirmationDialog(context, tournament);
+
             }
         });
 
@@ -81,6 +84,9 @@ public class DialogHelper {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                System.exit(0);
+
+
                 // Add your code to handle quitting the game here
             }
         });

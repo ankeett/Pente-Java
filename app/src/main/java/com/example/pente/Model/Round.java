@@ -21,14 +21,12 @@ public class Round {
     private Context context;
 
     public void reset() {
-        // Reset the round to its initial state
-        // You need to define the logic based on your game's requirements.
-        // For example, if there are scores, captures, and other round-related data, reset them.
-
-        // Example: Reset scores and captures
+        checkPlayers();
         humanScore = 0;
         computerScore = 0;
-        winner = 0; // Set to an initial state value
+        winner = 0;
+
+
     }
 
     public Round(Player player1, Player player2) {
@@ -104,6 +102,10 @@ public class Round {
         return B;
     }
 
+    public void setBoard(Board board){
+        B = board;
+    }
+
     public int getHumanCapture() {
         return B.getHumanCaptures();
     }
@@ -134,6 +136,43 @@ public class Round {
 
     public void switchTurn() {
         currentPlayerIndex = (currentPlayerIndex + 1) % playerList.length;
+    }
+
+    public void swapPlayers(){
+        Player temp = playerList[0];
+        playerList[0] = playerList[1];
+        playerList[1] = temp;
+
+        playerList[0].setSymbol('W');
+        playerList[1].setSymbol('B');
+    }
+
+    public void checkPlayers(){
+        System.out.println("I am here" + getWinner());
+
+        if(getHumanColor() == 'W'){
+            if(getWinner() == 1){
+
+                //do nothing
+            }
+            else{
+                System.out.println("before swapping");
+                swapPlayers();
+                setHumanColor('B');
+            }
+        }
+        //human is black
+        else{
+            if(getWinner() == 1){
+                System.out.println("before swapping");
+                swapPlayers();
+                setHumanColor('W');
+            }
+            else{
+                //do nothing
+            }
+
+        }
     }
 
 
@@ -271,5 +310,45 @@ public class Round {
         System.out.println("Human Score: " + getHumanScore());
         System.out.println("Computer Score: " + getComputerScore());
     }
+
+    public String GameState(Round round) {
+
+        StringBuilder result = new StringBuilder();
+
+        result.append("Board:\n");
+
+        for (int row = 1; row <= 19; row++) {
+            for (int col = 0; col < 19; col++) {
+                int value = round.getBoard().getBoard(row, col);
+                char symbol;
+
+                if (value == 1) {
+                    symbol = (round.getHumanColor() == 'W') ? 'W' : 'B';
+                } else if (value == 2) {
+                    symbol = (round.getHumanColor() == 'B') ? 'W' : 'B';
+                } else {
+                    symbol = 'O';
+                }
+
+                result.append(symbol);
+            }
+
+            result.append("\n");
+        }
+
+        result.append("Human:\n");
+        result.append("Captured pairs: ").append(round.getBoard().getHumanCaptures()).append("\n");
+        result.append("Score: ").append(round.getTournamentHumanScore()).append("\n\n");
+
+        result.append("Computer:\n");
+        result.append("Captured pairs: ").append(round.getBoard().getComputerCaptures()).append("\n");
+        result.append("Score: ").append(round.getTournamentComputerScore()).append("\n\n");
+
+        String color = round.getHumanColor() == 'W' ? "White" : "Black";
+        result.append("Next Player: ").append("Human").append(" - ").append(color).append("\n");
+
+        return result.toString();
+    }
+
 }
 

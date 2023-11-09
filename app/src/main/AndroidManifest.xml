@@ -10,7 +10,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.Pente"
         tools:targetApi="31">
@@ -27,9 +27,7 @@
             android:label="Start Game Activity">
             <!-- ... -->
         </activity>
-        <activity android:name=".RoundPlay">
-            <!-- Add any other necessary configuration for the activity -->
-        </activity>
+
 
 
 

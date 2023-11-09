@@ -22,6 +22,7 @@ import com.example.pente.R;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -40,8 +41,7 @@ public class MainActivity extends AppCompatActivity {
         // Reference the buttons using their IDs
         Button buttonStartGame = findViewById(R.id.button3);
         Button buttonLoadGame = findViewById(R.id.button4);
-        Button buttonHelp = findViewById(R.id.button);
-        Button buttonQuit = findViewById(R.id.button2);
+
 
 
 
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Create an Intent to navigate to the StartGame activity
                 Intent intent = new Intent(MainActivity.this, RoundPlay.class);
-
+                intent.putExtra("gameType", "Start");
                 // Start the StartGame activity
                 startActivity(intent);
             }
@@ -65,71 +65,84 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        buttonHelp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Define the action to be taken when the "Help" button is clicked.
-                // For example, you can show a help dialog or navigate to a help screen.
-                // Replace the following line with your desired action.
-                // Example: showHelpDialog();
-            }
-        });
-
-        buttonQuit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Define the action to be taken when the "Quit" button is clicked.
-                // For example, you can close the app or show a confirmation dialog.
-                // Replace the following line with your desired action.
-                // Example: finish();
-            }
-        });
     }
 
 //
 
     public void LoadGame(View view) {
+        AlertDialog.Builder loadFileDialog = new AlertDialog.Builder(MainActivity.this);
+        loadFileDialog.setTitle("Select a saved game");
 
-        AlertDialog.Builder LoadFileDialog = new AlertDialog.Builder(MainActivity.this);
-        LoadFileDialog.setTitle("Select a saved game");
-
-        //saveTestFile();
-
-        String serializeDirectory = Environment.getExternalStorageDirectory().getAbsolutePath() +"/Download";
-//      "/storage/emulated/0/Download"
+        String serializeDirectory = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download";
         final File directory = new File(serializeDirectory);
         File[] filesList = directory.listFiles();
 
         Vector<String> filesNames = new Vector<>();
 
-
-//        //getting the names of the file and add them to the list of files_name if the file's extension is .txt
         for (File file : filesList) {
             String fileName = file.getName();
-            if (fileName.endsWith(".txt")){
+            if (fileName.endsWith(".txt")) {
                 filesNames.add(fileName);
             }
         }
 
-        String[] FileNames = new String[filesNames.size()];
-        FileNames = filesNames.toArray(FileNames);
+        String[] fileNamesArray = new String[filesNames.size()];
+        fileNamesArray = filesNames.toArray(fileNamesArray);
 
-        // displays the list of files and starts another activity when a file is chosen.
-        LoadFileDialog.setItems(FileNames, new DialogInterface.OnClickListener() {
+        loadFileDialog.setItems(fileNamesArray, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int these) {
+            public void onClick(DialogInterface dialog, int which) {
                 ListView select = ((AlertDialog) dialog).getListView();
-                String fileName = (String) select.getAdapter().getItem(these);
-                Intent intent = new Intent(MainActivity.this, RoundPlay.class);
-                intent.putExtra("filepath", directory + "/" + fileName);
-                intent.putExtra("gameType", "Load");
-                //intent.putExtra("gameObject", mGameObject);
-                startActivity(intent);
+                String fileName = (String) select.getAdapter().getItem(which);
+
+                // Read and display the content of the selected file
+                String filePath = directory + "/" + fileName;
+                String fileContent = readFileContent(filePath);
+
+                // Show a dialog with the file content
+                AlertDialog.Builder contentDialog = new AlertDialog.Builder(MainActivity.this);
+                contentDialog.setTitle("File Content");
+                contentDialog.setMessage(fileContent);
+                contentDialog.setPositiveButton("Load", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Load the file and start a new activity
+                        Intent intent = new Intent(MainActivity.this, RoundPlay.class);
+                        intent.putExtra("filepath", filePath);
+                        intent.putExtra("gameType", "Load");
+                        startActivity(intent);
+                    }
+                });
+                contentDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing, just dismiss the dialog
+                    }
+                });
+                contentDialog.show();
             }
         });
-        LoadFileDialog.show();
+
+        loadFileDialog.show();
     }
+
+    private String readFileContent(String filePath) {
+        StringBuilder content = new StringBuilder();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(filePath));
+            String line;
+            while ((line = br.readLine()) != null) {
+                content.append(line).append("\n");
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Error reading file content";
+        }
+        return content.toString();
+    }
+
+
 
     public void saveTestFile() {
         String serializeDirectory = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download";

@@ -47,19 +47,28 @@ public class HumanPlayer extends Player {
     }
     @Override
     public void makeMove(Board board, int moveCount) {
-        Pattern movePattern = Pattern.compile("[A-S]([1-9]|1[0-9])");
+        //Pattern movePattern = Pattern.compile("[A-S]([1-9]|1[0-9])");
             String move;
-//            if(moveCount == 1){
-//                move = "J10";
-//
-//            }
-//            else{
-//                System.out.println(position);
-//                move = returnMove(position);
-//            }
+            if(moveCount == 1){
+                move = "J10";
 
-            System.out.println(position);
-            move = returnMove(position);
+            }
+            else{
+                System.out.println(position);
+                move = returnMove(position);
+            }
+
+//            System.out.println(position);
+//            move = returnMove(position);
+
+            if(moveCount == 3){
+                if(!isThreePointsAway("J10", move)){
+                    System.out.println("Invalid move. Please enter a valid position.");
+                    System.out.println("Hint: The stone should be at least 3 intersections away from the center of the board i.e. J10");
+                    return;
+                }
+
+            }
 
 
             char colChar = move.charAt(0);

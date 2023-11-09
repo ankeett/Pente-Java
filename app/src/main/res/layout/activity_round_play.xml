@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="20dp"
     >
 
     <!-- Add the new TextView above the game board GridView -->
@@ -24,12 +24,14 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:numColumns="19"
-        android:columnWidth="40dp"
+        android:columnWidth="50dp"
         android:verticalSpacing="1dp"
         android:horizontalSpacing="1dp"
         android:stretchMode="columnWidth"
         android:gravity="center"
         />
+
+
 
     <!-- Add a TextView that can be changed from the RoundView class -->
     <TextView

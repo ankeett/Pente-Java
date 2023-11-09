@@ -58,7 +58,6 @@ public class Strategy {
     }
 
 
-
     public Pair<Integer, Integer> captureOpponent() {
         int opponentSymbol = (playerSymbol == 1) ? 2 : 1;
         for (int row = 1; row <= 19; row++) {
@@ -77,7 +76,6 @@ public class Strategy {
     }
 
 
-
     public Pair<Integer, Integer> defendCapture() {
         int opponentSymbol = (playerSymbol == 1) ? 2 : 1;
         for (int row = 1; row <= 19; row++) {
@@ -94,7 +92,6 @@ public class Strategy {
         }
         return new Pair<>(-1, -1);
     }
-
 
 
 // ...
@@ -151,7 +148,6 @@ public class Strategy {
 //        String toastMessage = "Pair: (" + pair.first + ", " + pair.second + ") - " + message;
 //        Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
 //    }
-
 
 
     public Pair<Integer, Integer> randomMove() {
@@ -227,5 +223,30 @@ public class Strategy {
         }
 
         return new Pair<>(-1, -1);
+    }
+
+    public Pair<Integer, Integer> evaluateSecondMove() {
+        // Define the coordinates of the center of the board
+        int centerRow = 9;
+        int centerCol = 9;
+
+        // Search for an empty cell that is exactly 3 steps away from the center (J10)
+        for (int dr = -2; dr <= 2; dr++) {
+            for (int dc = -2; dc <= 2; dc++) {
+                int newRow = centerRow + dr;
+                int newCol = centerCol + dc;
+
+                // Check if the new position is within bounds, exactly 3 intersections away, and empty
+                if (newRow >= 0 && newRow < 19 && newCol >= 0 && newCol < 19 &&
+                        (dr * dr + dc * dc == 4) && board.isEmptyCell(newRow, newCol)) {
+                    System.out.println("Reason: 3 intersections away but closer to the center of the board");
+                    return new Pair<>(newRow, newCol);
+                }
+            }
+        }
+
+        // If no suitable position is found, return {-1, -1} to indicate no move is available
+        System.out.println("Reason: No good position available. Randomizing the move.");
+        return randomMove();
     }
 }

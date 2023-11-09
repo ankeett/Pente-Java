@@ -38,6 +38,23 @@ public class Player {
     public boolean getQuit() {
         return quitGame;
     }
+
+    public boolean isThreePointsAway(String initialPos, String nextPos) {
+        // Convert the numeric parts of the positions to integers.
+        int initialPosRow = Integer.parseInt(initialPos.substring(1));
+        int initialPosCol = initialPos.charAt(0) - 'A';
+
+        int nextPosRow = Integer.parseInt(nextPos.substring(1));
+        int nextPosCol = nextPos.charAt(0) - 'A';
+
+        // Calculate the absolute differences in rows and columns.
+        int rowDifference = Math.abs(initialPosRow - nextPosRow);
+        int colDifference = Math.abs(initialPosCol - nextPosCol);
+
+        // Check if the move is at least 3 intersections away in any direction.
+        return (rowDifference >= 3 || colDifference >= 3 || (rowDifference >= 3 && colDifference >= 3));
+    }
+
 }
 
 
