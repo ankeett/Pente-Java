@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="0dp"
+    >
+
+    <!-- Add the new TextView above the game board GridView -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/logButton"
+            android:layout_width="102dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="Log" />
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/headerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Header Text"
+        android:layout_marginTop="16dp"
+    />
+
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="1"
+        android:rowCount="1"
+        android:layout_gravity="center"
+        android:paddingLeft="16dp">
+
+        <!-- TextView for alphabetical labels -->
+        <TextView
+            android:id="@+id/alphabeticalLabels"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:gravity="center" />
+
+    </GridLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="1"
+            android:rowCount="1">
+            <!-- TextView for alphabetical labels -->
+            <TextView
+                android:id="@+id/numericalLabels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="" />
+
+        </GridLayout>
+
+        <GridView
+            android:id="@+id/boardGridView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:columnWidth="50dp"
+            android:gravity="center"
+            android:horizontalSpacing="1dp"
+            android:numColumns="19"
+            android:paddingLeft="25dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="1dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+<!--    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+
+<!--        &lt;!&ndash; Image View for the background image with grid &ndash;&gt;-->
+<!--        <ImageView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:src="@drawable/grid_image"-->
+<!--            android:scaleType="fitXY" />-->
+
+<!--        &lt;!&ndash; GridView for your board &ndash;&gt;-->
+<!--        <GridView-->
+<!--            android:id="@+id/boardGridView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:columnWidth="50dp"-->
+<!--            android:gravity="center"-->
+<!--            android:horizontalSpacing="1dp"-->
+<!--            android:numColumns="19"-->
+<!--            android:stretchMode="columnWidth"-->
+<!--            android:paddingLeft="16dp"-->
+<!--            android:verticalSpacing="1dp"-->
+<!--            android:background="@android:color/transparent" />-->
+
+<!--    </FrameLayout>-->
+
+
+
+
+
+    <TextView
+        android:id="@+id/infoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Info Text"
+
+    />
+
+    <TextView
+        android:id="@+id/computerMoveView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:text="Move"
+        />
+
+
+    <!-- Add some spacing or separator between the GridView and the "Save" button -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000"
+    android:layout_marginTop="8dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/helpButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="32dp"
+            android:text="Help" />
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="102dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="32dp"
+            android:text="Save" />
+    </LinearLayout>
+
+
+    <!--    <TextView-->
+<!--        android:id="@+id/tossCoinText"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Toss a Coin"-->
+<!--        />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/headsButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Heads"-->
+<!--        />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/tailsButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Tails"-->
+<!--        />-->
+
+
+
+
+</LinearLayout>
+
+
+
+
+
