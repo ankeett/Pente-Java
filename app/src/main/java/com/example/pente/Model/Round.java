@@ -4,12 +4,15 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import android.content.Context;
 public class Round {
+
+    /**
+     * private data members
+     */
     private Board B = new Board();
     private Player[] playerList = new Player[2];
 
     private int humanScore = 0;
     private int computerScore = 0;
-
     private int tournamentHumanScore = 0;
     private int tournamentComputerScore = 0;
 
@@ -20,36 +23,58 @@ public class Round {
 
     private Context context;
 
+    /**
+     * Resets the scores and winner status in the game.
+     */
     public void reset() {
-        checkPlayers();
         humanScore = 0;
         computerScore = 0;
         winner = 0;
-
-
     }
 
+    /**
+     * Switches the player's turn to the human player's round.
+     */
+    public void humanRound(){
+        if(getHumanColor() == 'W'){
+            //do nothing
+        }
+        else{
+            swapPlayers();
+            setHumanColor('W');
+        }
+    }
+    /**
+     * Switches the player's turn to the computer player's round.
+     */
+
+    public void computerRound(){
+        if(getHumanColor() == 'W'){
+            swapPlayers();
+            setHumanColor('B');
+        }
+        else{
+           //do nothing
+        }
+    }
+
+
+
+
+    /**
+     * Initializes a round with two players.
+     * @param player1 The first player.
+     * @param player2 The second player.
+     */
     public Round(Player player1, Player player2) {
         playerList[0] = player1;
         playerList[1] = player2;
     }
 
-    public void startMenu() {
-        System.out.println("----Round begins----");
 
-        // Print the board with the column and row labels
-        B.printBoard('W');
-        startGame(B);
-
-        // Set the move number
-        B.setMoveCount(1);
-    }
-
-    public void continueMenu() {
-        System.out.println("----Continue the Game----");
-        //continueGame(B);
-    }
-
+    /**
+     * setters and getters
+     */
     public int getHumanScore() {
         return humanScore;
     }
@@ -138,6 +163,9 @@ public class Round {
         currentPlayerIndex = (currentPlayerIndex + 1) % playerList.length;
     }
 
+    /**
+     * Swaps the positions of the two players in the player list and updates their symbols.
+     */
     public void swapPlayers(){
         Player temp = playerList[0];
         playerList[0] = playerList[1];
@@ -147,139 +175,18 @@ public class Round {
         playerList[1].setSymbol('B');
     }
 
-    public void checkPlayers(){
-        System.out.println("I am here" + getWinner());
-
-        if(getHumanColor() == 'W'){
-            if(getWinner() == 1){
-
-                //do nothing
-            }
-            else{
-                System.out.println("before swapping");
-                swapPlayers();
-                setHumanColor('B');
-            }
-        }
-        //human is black
-        else{
-            if(getWinner() == 1){
-                System.out.println("before swapping");
-                swapPlayers();
-                setHumanColor('W');
-            }
-            else{
-                //do nothing
-            }
-
-        }
-    }
 
 
 
-    public void startGame(Board B) {
-        //Scanner scanner = new Scanner(System.in);
-
-        Player currentPlayer = playerList[currentPlayerIndex];
-
-        while (!B.isGameOver()) {
-            currentPlayer.makeMove(B, B.getMoveCount());
-
-            if (currentPlayer.getQuit()) {
-                setQuit(true);
-                B.setGameOver(true);
-                break;  // Use break to exit the loop
-            }
-
-            currentPlayerIndex = (currentPlayerIndex + 1) % 2;
-            currentPlayer = playerList[currentPlayerIndex];
-
-            B.setMoveCount(B.getMoveCount() + 1);
-
-            System.out.println("Human Captures: " + B.getHumanCaptures());
-            System.out.println("Computer Captures: " + B.getComputerCaptures());
-
-            if (B.getHumanCaptures() >= 5 || B.getComputerCaptures() >= 5) {
-                System.out.println("Game Over");
-                if (B.getHumanCaptures() == 5) {
-                    setWinner(1);
-                    System.out.println("You win!");
-                } else {
-                    setWinner(2);
-                    System.out.println("Computer wins");
-                }
-                B.setGameOver(true);
-                break;  // Use break to exit the loop
-            }
-
-//            if (currentPlayer.getSymbol() != getHumanColor()) {
-//                System.out.println("Before asking to quit");
-//                System.out.println("Do you want to quit? (y/n)");
-//
-//                try {
-//                    String response = scanner.nextLine().toUpperCase();
-//                    // ... your code
-//                    System.out.println("After asking to quit");
-//                    if (response.equals("Y")) {
-//                        System.out.println("Quitting the game");
-//                        setQuit(true);
-//                        B.setGameOver(true);
-//                        break;  // Use break to exit the loop
-//                    }
-//                } catch (NoSuchElementException e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-        }
-
-        // Don't close the scanner here to keep System.in open for further input
-        calculateScores(B);
-        printScores();
-        //scanner.close();  // Close the scanner when you're done with input
-    }
 
 
 
-//    public void continueGame(Board B) {
-//        Serialization s = new Serialization(B);
-//        s.readBoard(B);
-//
-//        int moveCount = B.checkEmptyBoard();
-//        B.setMoveCount(moveCount + 1);
-//
-//        setHumanColor(s.getHumanColor());
-//
-//        if (s.getHumanColor() == 'W') {
-//            if (s.getNextPlayer().equals("Human")) {
-//                setCurrentPlayerIndex(0);
-//            } else {
-//                setCurrentPlayerIndex(1);
-//            }
-//        } else {
-//            Player temp = playerList[0];
-//            playerList[0] = playerList[1];
-//            playerList[1] = temp;
-//
-//            if (s.getNextPlayer().equals("Human")) {
-//                setCurrentPlayerIndex(1);
-//            } else {
-//                setCurrentPlayerIndex(0);
-//            }
-//        }
-//
-//        playerList[0].setSymbol('W');
-//        playerList[1].setSymbol('B');
-//
-//        B.setHumanCaptures(s.getHumanCaptures());
-//        B.setComputerCaptures(s.getComputerCaptures());
-//
-//        setTournamentHumanScore(s.getHumanScore());
-//        setTournamentComputerScore(s.getComputerScore());
-//
-//        startGame(B);
-//    }
 
+
+    /**
+     * Calculates and updates the scores based on the current state of the game board.
+     * @param B The current game board.
+     */
     public void calculateScores(Board B) {
         int humanFour = B.countFour(1);
         int computerFour = B.countFour(2);
@@ -299,18 +206,16 @@ public class Round {
             }
         }
 
-        System.out.println("Human 4 in a row: " + humanFour);
-        System.out.println("Computer 4 in a row: " + computerFour);
         setHumanScore(getHumanScore() + humanFour);
         setComputerScore(getComputerScore() + computerFour);
     }
 
-    public void printScores() {
-        System.out.println("----Round Scores----");
-        System.out.println("Human Score: " + getHumanScore());
-        System.out.println("Computer Score: " + getComputerScore());
-    }
 
+    /**
+     * Generates a string representing the current state of the game.
+     * @param round The current round of the game.
+     * @return A string containing the board state, scores, and next player information.
+     */
     public String GameState(Round round) {
 
         StringBuilder result = new StringBuilder();

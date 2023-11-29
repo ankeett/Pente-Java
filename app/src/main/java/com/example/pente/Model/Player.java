@@ -1,14 +1,36 @@
 package com.example.pente.Model;
 
 public class Player {
-    private char symbol;
+
+    /**
+     * Data members
+     */
+
     boolean quitGame  = false;
-
     protected static int position;
+    private char symbol;
+    private boolean hasCaptured = false;
 
+
+    /**
+    setters and getters
+     */
     public void setPosition(int position){
-        System.out.println("position is changed to "+ position);
         Player.position = position;
+    }
+
+
+    public void setHasCaptured(boolean result){
+        hasCaptured = result;
+    }
+
+    public boolean getHasCaptured(){
+        return hasCaptured;
+    }
+
+
+    public int getPosition(){
+        return position;
     }
 
 
@@ -28,6 +50,13 @@ public class Player {
         // The makeMove method implementation is specific to the HumanPlayer and ComputerPlayer classes.
     }
 
+    /**
+     * Checks if the specified move (row, col) on the game board is valid.
+     * @param board The current game board.
+     * @param row The row index of the move.
+     * @param col The column index of the move.
+     * @return True if the move is valid; otherwise, false.
+     */
     public boolean isValidMove(Board board, int row, int col) {
         return row >= 1 && row <= 19 && col >= 0 && col < 19 && board.isEmptyCell(row, col);
     }
@@ -39,6 +68,12 @@ public class Player {
         return quitGame;
     }
 
+    /**
+     * Checks if the next position is at least three intersections away from the initial position.
+     * @param initialPos The initial position in standard board notation (e.g., "J10").
+     * @param nextPos The next position in standard board notation.
+     * @return True if the next position is at least three intersections away; otherwise, false.
+     */
     public boolean isThreePointsAway(String initialPos, String nextPos) {
         // Convert the numeric parts of the positions to integers.
         int initialPosRow = Integer.parseInt(initialPos.substring(1));

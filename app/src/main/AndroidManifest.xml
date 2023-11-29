@@ -27,6 +27,10 @@
             android:label="Start Game Activity">
             <!-- ... -->
         </activity>
+        <activity android:name=".View.CoinTossActivity"
+            android:label="Toss Coin Activity">
+            <!-- ... -->
+        </activity>
 
 
 

@@ -2,6 +2,7 @@ package com.example.pente.Model;
 import android.util.Log;
 
 public class Board {
+    /*** Private member variables ***/
     private int[][] board = new int[19][19];
     private boolean gameOver = false;
     private int humanCaptures = 0;
@@ -9,12 +10,10 @@ public class Board {
     private int moveCount = 1;
     private int winner = 0;
 
+    /**
+     * Resets the game state, clearing the 2D array representing the board and resetting other game-related variables.
+     */
     public void reset() {
-        // Reset the game board to its initial state
-        // You need to define the logic based on your game's requirements.
-        // For example, if your board is represented by a 2D array, you can clear it.
-        // If there are other board-related variables, reset them as well.
-
         // Example: Clear a 2D array representing the board
         for (int i = 0; i < 19; i++) {
             for (int j = 0; j < 19; j++) {
@@ -28,6 +27,10 @@ public class Board {
         gameOver = false;
     }
 
+    /**
+     * Creates a deep copy of the current game board, including all game-related variables.
+     * @return A new Board object that is an independent copy of the current board state.
+     */
     public Board deepCopy() {
         Board copy = new Board();
         for (int row = 0; row < 19; row++) {
@@ -46,52 +49,29 @@ public class Board {
     }
 
 
-//    public void printBoard(char symbol) {
-//        // Print column labels (A - S)
-//        System.out.print("   ");
-//        for (char col = 'A'; col <= 'S'; col++) {
-//            System.out.print(col + "  ");
-//        }
-//        System.out.println();
-//
-//        // Print the board with row labels (1 - 19)
-//        // Rows go from 1 to 19, so we start from 18 down to 0
-//        int row = 0;
-//        for (int rowName = 18; rowName >= 0; rowName--) {
-//            // Set the width to 2 for row labels
-//            System.out.print(String.format("%2d ", rowName + 1));
-//            for (int col = 0; col < 19; col++) {
-//                if (board[row][col] == 0) {
-//                    System.out.print(".  ");
-//                } else if (board[row][col] == 1) {
-//                    System.out.print(symbol + "  ");
-//                } else {
-//                    if (symbol == 'W') {
-//                        System.out.print("B  ");
-//                    } else {
-//                        System.out.print("W  ");
-//                    }
-//                }
-//            }
-//            row++;
-//            System.out.println();
-//        }
-//    }
-public String printBoard(char player) {
-    StringBuilder sb = new StringBuilder();
-    for (int row = 0; row < board.length; row++) {
-        for (int col = 0; col < board[row].length; col++) {
-            sb.append(board[row][col]);
-            sb.append(' ');
+    /**
+     * Generates a string representation of the current game board, replacing numeric values with a specified player character.
+     * @param player The character representation of a player to use in the printed board.
+     * @return A string representation of the current game board with player characters for debugging purposes.
+     */
+    public String printBoard(char player) {
+        StringBuilder sb = new StringBuilder();
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board[row].length; col++) {
+                sb.append(board[row][col]);
+                sb.append(' ');
+            }
+            sb.append('\n');
         }
-        sb.append('\n');
+        return sb.toString();
     }
-    return sb.toString();
-}
 
-
+    /**
+     * Places a stone on the game board at the specified position.
+     * @param move A string representation of the move, where the first character is the column (A to T) and the remaining characters are the row number.
+     * @param symbol The symbol representing the player ('H' for human, 'C' for computer).
+     */
     public void placeStone(String move, char symbol) {
-        Log.d("MyTag", "Entering myFunction");
         char colChar = Character.toUpperCase(move.charAt(0));
         int row = Integer.parseInt(move.substring(1));
         int col = colChar - 'A';
@@ -103,10 +83,15 @@ public String printBoard(char player) {
             board[row - 1][col] = 2;
         }
 
-        Log.d("board", printBoard('W'));
-
     }
 
+    /**
+     * Checks if there are five consecutive stones of the specified symbol in any direction starting from the given position.
+     * @param row The row index of the starting position.
+     * @param col The column index of the starting position.
+     * @param symbol The numeric symbol representing the player's stone (1 for human, 2 for computer).
+     * @return True if there are five consecutive stones in any direction; otherwise, false.
+     */
     public boolean checkFive(int row, int col, int symbol) {
         int consecutiveSum = 0;
 
@@ -148,6 +133,13 @@ public String printBoard(char player) {
         return false;
     }
 
+    /**
+     * Checks if there are five consecutive stones of the specified symbol in any direction starting from the given position.
+     * @param row The row index of the starting position.
+     * @param col The column index of the starting position.
+     * @param symbol The numeric symbol representing the player's stone (1 for human, 2 for computer).
+     * @return True if there are four consecutive stones in any direction; otherwise, false.
+     */
     public boolean checkFour(int row, int col, int symbol) {
         int consecutiveSum = 0;
 
@@ -193,7 +185,16 @@ public String printBoard(char player) {
         return false; // No four consecutive stones found
     }
 
-
+    /**
+     * Checks the number of consecutive stones in a specified direction starting from a given position.
+     * @param row The row index of the starting position.
+     * @param col The column index of the starting position.
+     * @param symbol The numeric symbol representing the player's stone (1 for human, 2 for computer).
+     * @param deltaRow The change in row index for each step in the specified direction.
+     * @param deltaCol The change in column index for each step in the specified direction.
+     * @param count The maximum number of consecutive stones to check.
+     * @return The number of consecutive stones in the specified direction.
+     */
     public int checkDirection(int row, int col, int symbol, int deltaRow, int deltaCol, int count) {
         int consecutiveStones = 0;
         int r = row - 1;
@@ -239,6 +240,15 @@ public String printBoard(char player) {
         return false;
     }
 
+    /**
+     * Checks for a capture in the specified direction starting from a given position.
+     * @param row The row index of the starting position.
+     * @param col The column index of the starting position.
+     * @param symbol The numeric symbol representing the player's stone (1 for human, 2 for computer).
+     * @param deltaRow The change in row index for each step in the specified direction.
+     * @param deltaCol The change in column index for each step in the specified direction.
+     * @return True if a capture is found in the specified direction; otherwise, false.
+     */
     public boolean checkCaptureDirection(int row, int col, int symbol, int deltaRow, int deltaCol) {
         // Determine the opponent's symbol
         int opponentSymbol = (symbol == 1) ? 2 : 1;
@@ -283,7 +293,8 @@ public String printBoard(char player) {
         return false;
     }
 
-
+    /** setters and getters
+     */
     public int getWinner() {
         return winner;
     }
@@ -324,15 +335,6 @@ public String printBoard(char player) {
         gameOver = over;
     }
 
-    public boolean isOccupied(String move) {
-        char colChar = Character.toUpperCase(move.charAt(0));
-        int row = Integer.parseInt(move.substring(1));
-        int col = colChar - 'A';
-        row = 20 - row;
-
-        return board[row - 1][col] != 0;
-    }
-
     public void setBoard(int row, int col, int symbol) {
         board[row-1][col] = symbol;
     }
@@ -344,6 +346,13 @@ public String printBoard(char player) {
         return board[row-1][col] == 0;
     }
 
+    /**
+     * Calculates the maximum number of consecutive stones in any direction starting from a given position for a specified player.
+     * @param row The row index of the starting position.
+     * @param col The column index of the starting position.
+     * @param playerSymbol The numeric symbol representing the player's stone (1 for human, 2 for computer).
+     * @return The maximum number of consecutive stones in any direction.
+     */
     public int calculateConsecutiveCount(int row, int col, int playerSymbol) {
         int consecutiveCount = 0;
 
@@ -388,6 +397,10 @@ public String printBoard(char player) {
         return consecutiveCount;
     }
 
+    /**
+     * Checks the number of non-empty cells on the game board.
+     * @return The count of non-empty cells on the board.
+     */
     public int checkEmptyBoard() {
         int count = 0;
         for (int i = 1; i <= 19; i++) {
@@ -400,6 +413,11 @@ public String printBoard(char player) {
         return count;
     }
 
+    /**
+     * Counts the number of occurrences where there are four consecutive stones of the specified symbol in any direction on the board.
+     * @param symbol The numeric symbol representing the player's stone (1 for human, 2 for computer).
+     * @return The count of occurrences where there are four consecutive stones in any direction.
+     */
     public int countFour(int symbol) {
         int[][] directions = { {0, 1}, {1, 0}, {1, 1}, {1, -1} };
         int totalCount = 0;
@@ -434,10 +452,6 @@ public String printBoard(char player) {
 
         return totalCount;
     }
-
-
-
-
 
 }
 

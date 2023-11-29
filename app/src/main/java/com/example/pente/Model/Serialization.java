@@ -13,6 +13,10 @@ import java.util.Scanner;
 
 
 public class Serialization {
+
+    /**
+     * private data members
+     */
     private Board B;
     private char humanColor = 'W';
     private char computerColor = 'B';
@@ -22,10 +26,19 @@ public class Serialization {
     private int computerScore = 0;
     private String nextPlayer = "Human";
 
+    /**
+     * constructor for Serialization class
+     * @param board
+     */
+
     public Serialization(Board board) {
         B = board;
     }
-    // Setter for humanColor
+
+
+    /**
+     * setters and getters
+     */
     public void setHumanColor(char stone) {
         humanColor = stone;
     }
@@ -97,22 +110,12 @@ public class Serialization {
 
 
 
+    /**
+     * Reads the board state and player information from a file and updates the game board and player scores.
+     * @param B The game board to be updated.
+     * @param fileName The name of the file containing the board state and player information.
+     */
     public void readBoard(Board B,String fileName) {
-//        Scanner scanner = new Scanner(System.in);
-//        String fileName;
-//
-//        while (true) {
-//            System.out.print("Enter the name of the file you want to read from: ");
-//            fileName = scanner.next();
-//            File file = new File(fileName);
-//
-//            if (file.exists()) {
-//                System.out.println("File opened successfully");
-//                break;
-//            } else {
-//                System.out.println("File could not be opened");
-//            }
-//        }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName)) ){
             String line;
@@ -219,6 +222,10 @@ public class Serialization {
         B.printBoard(getHumanColor());
     }
 
+    /**
+     * Parses the player information from a line and sets the next player and player colors.
+     * @param line The line containing player information.
+     */
     public void findColor(String line) {
         int pos = line.indexOf("Next Player:");
         String playerPair = "1-1";
@@ -258,62 +265,7 @@ public class Serialization {
         }
     }
 
-    public String trim(String str) {
-        int first = 0;
-        int last = str.length() - 1;
 
-        while (first <= last && Character.isWhitespace(str.charAt(first))) {
-            first++;
-        }
-
-        while (last >= first && Character.isWhitespace(str.charAt(last))) {
-            last--;
-        }
-
-        return str.substring(first, last + 1);
-    }
-
-    public void writeIntoFile() {
-
-
-
-
-//        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-//            writer.write("Board:\n");
-//
-//            for (int row = 1; row <= 19; row++) {
-//                for (int col = 0; col < 19; col++) {
-//                    int value = board.getBoard(row, col);
-//                    char symbol;
-//
-//                    if (value == 1) {
-//                        symbol = (getHumanColor() == 'W') ? 'W' : 'B';
-//                    } else if (value == 2) {
-//                        symbol = (getHumanColor() == 'B') ? 'W' : 'B';
-//                    } else {
-//                        symbol = 'O';
-//                    }
-//
-//                    writer.write(symbol);
-//                }
-//
-//                writer.write("\n");
-//            }
-//
-//            writer.write("Human:\n");
-//            writer.write("Captured pairs: " + getHumanCaptures() + "\n");
-//            writer.write("Score: " + getHumanScore() + "\n\n");
-//
-//            writer.write("Computer:\n");
-//            writer.write("Captured pairs: " + getComputerCaptures() + "\n");
-//            writer.write("Score: " + getComputerScore() + "\n\n");
-//
-//            String color = (getNextPlayer().equals("Human")) ? (getHumanColor() == 'W' ? "White" : "Black") : (getHumanColor() == 'W' ? "Black" : "White");
-//            writer.write("Next Player: " + getNextPlayer() + " - " + color + "\n");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-    }
 }
 
 

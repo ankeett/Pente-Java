@@ -17,20 +17,49 @@ public class HumanPlayer extends Player {
     private Context context;
 
 
-    //private int position;
 
-//    public void setPosition(int position){
-//        this.position = position;
-//    }
-
-
-
-
+    /**
+     * Constructs a HumanPlayer with the specified symbol and associated context.
+     * @param symbol The character representing the player's symbol ('W' for white, 'B' for black).
+     * @param context The context associated with the computer player, typically used for game-related operations.
+     * Help from : https://developer.android.com/reference/android/content/Context
+     */
     public HumanPlayer(char symbol,Context context) {
         super(symbol);
         this.context = context;
     }
 
+    /**
+     * Checks if a specified position on the game board is valid for the computer player's move.
+     * @param board The current game board.
+     * @param position The position to check for validity.
+     * @return True if the position is valid; otherwise, false.
+     */
+    public boolean checkPosition(Board board,int position){
+
+        String move = returnMove(position);
+        char colChar = move.charAt(0);
+        int row = 20 - Integer.parseInt(move.substring(1));
+        int col = colChar - 'A';
+
+        //check Validity
+        if(isValidMove(board, row, col)){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+
+    }
+
+
+
+    /**
+     * Converts a linear position index to a string representation of a move on the game board.
+     * @param position The linear position index to convert.
+     * @return A string representing the move in standard board notation.
+     */
     public String returnMove(int position){
         if (position >= 0 && position < 19 * 19) {
             int boardSize = 19;
@@ -45,21 +74,24 @@ public class HumanPlayer extends Player {
             return "Invalid position";
         }
     }
+
+    /**
+     * Makes a move for the human player based on the current game state and move count.
+     * @param board The current game board.
+     * @param moveCount The current move count.
+     */
     @Override
     public void makeMove(Board board, int moveCount) {
-        //Pattern movePattern = Pattern.compile("[A-S]([1-9]|1[0-9])");
+            setHasCaptured(false);
             String move;
             if(moveCount == 1){
                 move = "J10";
 
             }
             else{
-                System.out.println(position);
                 move = returnMove(position);
             }
 
-//            System.out.println(position);
-//            move = returnMove(position);
 
             if(moveCount == 3){
                 if(!isThreePointsAway("J10", move)){
@@ -89,8 +121,8 @@ public class HumanPlayer extends Player {
                 while (board.checkCapture(row, col, 1)) {
                     board.printBoard(HumanPlayer.super.getSymbol());
                     System.out.println("You captured a stone!");
+                    setHasCaptured(true);
                 }
-                //break;
 
                 System.out.println("Human Captures: "+ board.getHumanCaptures());
                 System.out.println("Computer Captures: "+ board.getComputerCaptures());
@@ -98,13 +130,28 @@ public class HumanPlayer extends Player {
                 System.out.println(move);
                 System.out.println("Invalid move. Please enter a valid position.");
             }
-       // } while (true);
     }
 
+    /**
+     * Generates a move suggestion for the human player in help mode based on the current game state and move count.
+     * @param board The current game board.
+     * @param moveCount The current move count.
+     * @return A string representing the suggested move in standard board notation.
+     */
     public String helpMode(Board board, int moveCount){
-        Strategy strategy = new Strategy(board, 2, context);
+        Strategy strategy = new Strategy(board, 1, context);
+        String move;
+        Pair<Integer, Integer> bestMove;
 
-        Pair<Integer, Integer> bestMove = strategy.evaluateAllCases();
+        if(moveCount == 1){
+            return "J10";
+        }
+        else if(moveCount == 3){
+            bestMove = strategy.evaluateSecondMove();
+        }
+        else {
+            bestMove = strategy.evaluateAllCases();
+        }
 
         //Log.d("strategy", bestMove.first + " " + bestMove.second );
 
@@ -112,9 +159,33 @@ public class HumanPlayer extends Player {
         int col = bestMove.second;      // Get the second element
 
         char colChar = (char) ('A' + col);
-        String move = colChar + Integer.toString(row);
+        move = colChar + Integer.toString(row);
 
         return move;
+
+
+    }
+
+    /**
+     * Provides reasoning for the suggested move in help mode based on the current game state and move count.
+     * @param board The current game board.
+     * @param moveCount The current move count.
+     * @return A string describing the reasoning behind the suggested move.
+     */
+    public String helpModeReasoning(Board board, int moveCount){
+        Strategy strategy = new Strategy(board, 1, context);
+        String reason;
+
+        if(moveCount == 1){
+            return "First move at the center fo the center of the board";
+        }
+        else if(moveCount == 3){
+            return "Three intersection away from the center";
+        }
+        else{
+            return strategy.evaluateAllCasesReasoning();
+
+        }
 
 
     }
